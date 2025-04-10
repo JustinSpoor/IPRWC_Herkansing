@@ -14,6 +14,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {ToastrModule} from "ngx-toastr";
 import {AboutModule} from "./about/about.module";
+import {ShopModule} from "./shop/shop.module"
 
 
 @NgModule({
@@ -35,6 +36,7 @@ import {AboutModule} from "./about/about.module";
         AboutModule,
         ErrorModule,
         LoginModule,
+        ShopModule,
         ReactiveFormsModule,
         FooterModule,
     ],

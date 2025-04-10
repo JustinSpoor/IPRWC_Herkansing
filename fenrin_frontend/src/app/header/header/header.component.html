@@ -4,9 +4,12 @@
         <ul>
           <li><a routerLink="home" routerLinkActive="active"  >Fenrin</a></li>
           <li><a routerLink="about" routerLinkActive="active" >Over Ons</a></li>
+          <li><a routerLink="shop" routerLinkActive="active">Shop</a></li>
         </ul>
       </nav>
     </div>
+
+    <!--  TODO: winkelmandje knop (alleen te zien als je op de shop page zit?)  -->
 
     <button *ngIf="isLoggedIn == false" class="loginButton font-barlow-regular" routerLink="login">
       <span>Inloggen</span>
