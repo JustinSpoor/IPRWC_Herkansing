@@ -1,0 +1,83 @@
+img {
+  padding-top: 3.75rem;
+  width: 100%;
+  height: auto;
+  max-height: 60vh;
+  object-fit: cover;
+  filter: blur(2px);
+}
+
+.imageContainer {
+  position: relative;
+}
+
+.imageContainer img {
+  width: 100%;
+  display: block;
+}
+
+.socialIcons {
+  position: absolute;
+  bottom: 0.75rem;
+  right: 0.75rem;
+  display: flex;
+  gap: 0.75rem;
+}
+
+.socialIcons a {
+  color: white;
+  font-size: 1.5rem;
+  text-decoration: none;
+}
+
+.socialIcons a:hover {
+  opacity: 0.7;
+}
+
+.textWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+  width: 100%;
+}
+
+.textContainer {
+  text-align: center;
+  max-width: 60rem;
+  padding: 1.3rem;
+}
+
+.textContainer h1 {
+  font-size: 2.5em;
+  margin-bottom: 1.3rem;
+}
+
+.textContainer p {
+  font-size: 1.4em;
+  line-height: 1.5;
+}
+
+.aboutButton {
+  background-color: var(--fenrin-red-color);
+  color: var(--fenrin-blue-color);
+  font-size: 1.4em;
+  padding: 0.8rem 2.9rem;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  cursor: pointer;
+  box-sizing: border-box;
+  margin-top: 1.3rem;
+}
+
+.aboutButton:hover {
+  border: 2px solid var(--fenrin-blue-color);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+
+@media screen and (max-width: 500px) {
+  .imageContainer {
+    margin-bottom: 3rem;
+  }
+}

@@ -1,0 +1,48 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.font-barlow-regular {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 400;
+}
+
+.font-montserrat-extralight {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 200;
+}
+
+:root {
+  --fenrin-blue-color: #0f151d;
+  --fenrin-red-color: #ff5555;
+}
+
+.toast-top-right {
+  margin-top: 4rem!important;
+}
+
+
+.swal2-popup {
+  background-color: var(--fenrin-blue-color) !important;
+}
+
+.swal2-title {
+  font-family: 'Barlow Condensed', sans-serif!important;
+  color: white!important;
+}
+
+.swal2-text {
+  color: white!important;
+  font-family: 'Montserrat', sans-serif!important;
+}
+
+.swal2-confirm {
+  background-color: var(--fenrin-red-color)!important;
+  color: var(--fenrin-blue-color)!important;
+}
+
+.swal2-cancel {
+  background-color: #ffa500!important;
+  color: var(--fenrin-blue-color)!important;
+}

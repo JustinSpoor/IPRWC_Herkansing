@@ -1,0 +1,9 @@
+<div class="modal" *ngIf="isVisible">
+  <div class="modal-overlay" (click)="close()"></div>
+  <div class="modal-content">
+    <button class="close-btn" (click)="close()">
+      <i class="fas fa-times"></i>
+    </button>
+    <ng-content></ng-content>
+  </div>
+</div>

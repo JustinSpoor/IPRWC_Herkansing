@@ -1,0 +1,20 @@
+<header class="headerContainer">
+    <div class="navButtonContainer font-barlow-regular">
+      <nav>
+        <ul>
+          <li><a routerLink="home" routerLinkActive="active"  >Fenrin</a></li>
+          <li><a routerLink="about" routerLinkActive="active" >Over Ons</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <button *ngIf="isLoggedIn == false" class="loginButton font-barlow-regular" routerLink="login">
+      <span>Inloggen</span>
+      <i class="fas fa-user"></i>
+    </button>
+
+    <button *ngIf="isLoggedIn == true" class="loginButton font-barlow-regular" (click)="logout()">
+    <span>Uitloggen</span>
+    <i class="fas fa-user"></i>
+    </button>
+</header>

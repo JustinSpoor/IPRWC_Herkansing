@@ -1,0 +1,47 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.footer {
+  background-color: var(--fenrin-blue-color);
+  color: white;
+  padding: 20px 0;
+  text-align: center;
+}
+
+.footer .footerContainer {
+  width: 95%;
+  margin: 0 auto;
+}
+
+.footer .footerContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.footer p {
+  margin: 0;
+}
+
+.footer .socialLinks {
+  margin-top: 10px;
+}
+
+.footer .socialLinks i {
+  margin: 0 0.5rem;
+}
+
+.footer .socialLinks a {
+  color: white;
+  margin: 0 1rem;
+  text-decoration: none;
+  font-size: 20px;
+}
+
+.footer .socialLinks a:hover {
+  opacity: 0.7;
+}

@@ -1,0 +1,65 @@
+.headerContainer {
+  display: flex;
+  position: fixed;
+  z-index: 1000;
+  width: 100%;
+  top: 0;
+  background-color: #ffffff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  justify-content: space-between;
+}
+
+.navButtonContainer {
+  padding: 10px 0;
+}
+
+.navButtonContainer nav ul {
+  list-style: none;
+  display: flex;
+}
+
+.navButtonContainer nav ul li {
+  margin: 0.5rem;
+  margin-left: 1rem;
+}
+
+.navButtonContainer nav ul li a {
+  text-decoration: none;
+  color: var(--fenrin-blue-color);
+  font-size: 18px;
+  font-weight: bold;
+  padding: 0.5rem 0.25rem;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.navButtonContainer nav ul li a:hover {
+  background-color: rgba(238, 238, 238, 0.5);
+  color: var(--fenrin-blue-color);
+  text-decoration: underline;
+}
+
+.navButtonContainer nav ul li a.active {
+  text-decoration: underline;
+}
+
+.loginButton {
+  background-color: #ffffff;
+  color: var(--fenrin-blue-color);
+  font-size: 1.2rem;
+  padding: 8px 12px;
+  margin: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  border: none;
+}
+
+.loginButton i {
+  margin-left: 0.5rem;
+}
+
+.loginButton:hover {
+  background-color: rgba(238, 238, 238, 0.5);
+}
+
+
+
