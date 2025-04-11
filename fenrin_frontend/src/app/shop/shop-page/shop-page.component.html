@@ -15,12 +15,20 @@
 
 
 
-  <div class="products-scroll-wrapper">
+  <div class="products-scroll-wrapper font-barlow-regular">
+
+    <div *ngIf="getFilteredProducts().length === 0" class="no-products-message">
+      <p>Geen producten gevonden die overeenkomen met je zoekopdracht of categorie.</p>
+    </div>
+
     <div class="products-grid">
       <app-product
         *ngFor="let product of getFilteredProducts()"
         [product]="product"
       ></app-product>
     </div>
+
+
+
   </div>
 </div>

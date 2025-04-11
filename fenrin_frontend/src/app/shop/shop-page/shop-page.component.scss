@@ -64,3 +64,13 @@
   border-radius: 8px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
+
+.no-products-message {
+  text-align: center;
+  padding: 20px;
+  font-size: 1.2em;
+  color: var(--fenrin-blue-color);
+  background-color: var(--fenrin-red-color);
+  border-radius: 5px;
+  margin-top: 20px;
+}

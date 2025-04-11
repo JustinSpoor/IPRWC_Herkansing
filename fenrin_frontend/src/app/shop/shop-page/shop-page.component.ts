@@ -10,6 +10,7 @@ export class ShopPageComponent {
   products = [];
   searchTerm: string = '';
   selectedCategory: string = 'All';
+  filteredProducts = [];
 
   constructor(private shopService: ShopService) {}
 
@@ -20,6 +21,7 @@ export class ShopPageComponent {
   loadProducts() {
     this.shopService.getProducts().subscribe(products => {
       this.products = products;
+      this.filteredProducts = products;
     })
   }
 
@@ -29,7 +31,7 @@ export class ShopPageComponent {
   }
 
   getFilteredProducts() {
-    return this.products.filter((product: any) => {
+    this.filteredProducts = this.products.filter((product: any) => {
       const matchesSearch =
         product.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
         product.description.toLowerCase().includes(this.searchTerm.toLowerCase());
@@ -39,6 +41,7 @@ export class ShopPageComponent {
 
       return matchesSearch && matchesCategory;
     });
+    return this.filteredProducts;
   }
 
   addProduct() {
