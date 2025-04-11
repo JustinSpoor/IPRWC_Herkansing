@@ -23,12 +23,12 @@ export class ShopPageComponent {
     })
   }
 
-  get categories(): string[] {
+  getCategories(): string[] {
     const unique = new Set(this.products.map((p: any) => p.category));
     return ['All', ...Array.from(unique)];
   }
 
-  get filteredProducts() {
+  getFilteredProducts() {
     return this.products.filter((product: any) => {
       const matchesSearch =
         product.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
@@ -39,6 +39,10 @@ export class ShopPageComponent {
 
       return matchesSearch && matchesCategory;
     });
+  }
+
+  addProduct() {
+
   }
 
 }

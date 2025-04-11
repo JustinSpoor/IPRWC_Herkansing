@@ -6,14 +6,19 @@
     class="search-bar"
   />
 
-  <select [(ngModel)]="selectedCategory" class="category-select">
-    <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
-  </select>
+  <div class="selection-container">
+    <select [(ngModel)]="selectedCategory" class="category-select">
+      <option *ngFor="let cat of getCategories()" [value]="cat">{{ cat }}</option>
+    </select>
+<!--    <button (click)="addProduct()" class="btn btn-add">Nieuw product toevoegen</button>-->
+  </div>
+
+
 
   <div class="products-scroll-wrapper">
     <div class="products-grid">
       <app-product
-        *ngFor="let product of filteredProducts"
+        *ngFor="let product of getFilteredProducts()"
         [product]="product"
       ></app-product>
     </div>
