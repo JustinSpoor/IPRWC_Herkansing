@@ -11,7 +11,7 @@ export class ShopService {
   }
 
   getProducts() {
-    return this.httpService.httpGet(this.shopRoute);
+    return this.httpService.httpGet(this.shopRoute + "list");
   }
 
   updateProduct(product: any) {

@@ -41,7 +41,7 @@ public class SecurityConfig {
                     registry.requestMatchers("/images/**").permitAll();
 
                     // auth routes
-                    registry.requestMatchers("/api/authenticate", "/api/refreshtoken").permitAll();
+                    registry.requestMatchers("/api/authenticate", "/api/refreshtoken", "/api/productlist").permitAll();
                     registry.requestMatchers("/api/register").denyAll();  // Temporary deny
 
                     // Any other request needs authentication
