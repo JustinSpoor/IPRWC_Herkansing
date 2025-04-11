@@ -1,2 +1,21 @@
-<p>shop-page works!</p>
-<app-product></app-product>
+<div class="container">
+  <input
+    type="text"
+    [(ngModel)]="searchTerm"
+    placeholder="Search products..."
+    class="search-bar"
+  />
+
+  <select [(ngModel)]="selectedCategory" class="category-select">
+    <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+  </select>
+
+  <div class="products-scroll-wrapper">
+    <div class="products-grid">
+      <app-product
+        *ngFor="let product of filteredProducts"
+        [product]="product"
+      ></app-product>
+    </div>
+  </div>
+</div>

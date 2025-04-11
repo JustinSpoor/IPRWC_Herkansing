@@ -19,16 +19,18 @@ public class Product {
     @GeneratedValue
     private UUID id;
 
-    private String productName;
+    private String name;
 
     @Column(columnDefinition = "TEXT")
-    private String productDescription;
+    private String description;
+
+    private String category;
 
     @Column(precision = 10, scale = 2)
-    private BigDecimal productPrice;
+    private BigDecimal price;
 
-    private int productStock;
+    private int stock;
 
-    private String productImageUrl;
+    private String imageUrl;
 
 }

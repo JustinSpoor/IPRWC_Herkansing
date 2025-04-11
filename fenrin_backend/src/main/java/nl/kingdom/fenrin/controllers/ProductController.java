@@ -24,38 +24,41 @@ public class ProductController {
 
     @PostMapping("/product")
     private ResponseEntity<?> saveProduct (@RequestBody Product product) {
-        Optional<Product> checkIfProductExists = this .productService.getProductByName(product.getProductName());
+        Optional<Product> checkIfProductExists = this .productService.getProductByName(product.getName());
 
         if(checkIfProductExists.isEmpty()) {
             return ResponseEntity.ok(this.productService.saveProduct(product));
         } else {
-            return ResponseEntity.status(409).body("Product with name " + product.getProductName() +  " already exists");
+            return ResponseEntity.status(409).body("Product with name " + product.getName() +  " already exists");
         }
     }
 
     @PatchMapping("/build")
     private ResponseEntity<?> updateProduct(@RequestBody Product product) {
         Optional<Product> toBeUpdatedProduct = this.productService.getProductById(product.getId());
-        Optional<Product> checkIfNameIsAlreadyUsed = this.productService.getProductByName(product.getProductName());
+        Optional<Product> checkIfNameIsAlreadyUsed = this.productService.getProductByName(product.getName());
 
         if(toBeUpdatedProduct.isPresent()) {
             if(checkIfNameIsAlreadyUsed.isEmpty()) {
-                toBeUpdatedProduct.get().setProductName(product.getProductName());
-                toBeUpdatedProduct.get().setProductDescription(product.getProductDescription());
-                toBeUpdatedProduct.get().setProductPrice(product.getProductPrice());
-                toBeUpdatedProduct.get().setProductStock(product.getProductStock());
+                toBeUpdatedProduct.get().setName(product.getName());
+                toBeUpdatedProduct.get().setDescription(product.getDescription());
+                toBeUpdatedProduct.get().setCategory(product.getCategory());
+                toBeUpdatedProduct.get().setPrice(product.getPrice());
+                toBeUpdatedProduct.get().setStock(product.getStock());
+
 
                 return ResponseEntity.ok(this.productService.updateProduct(toBeUpdatedProduct.get()));
             } else {
                 if(checkIfNameIsAlreadyUsed.get().getId() == toBeUpdatedProduct.get().getId()) {
-                    toBeUpdatedProduct.get().setProductName(product.getProductName());
-                    toBeUpdatedProduct.get().setProductDescription(product.getProductDescription());
-                    toBeUpdatedProduct.get().setProductPrice(product.getProductPrice());
-                    toBeUpdatedProduct.get().setProductStock(product.getProductStock());
+                    toBeUpdatedProduct.get().setName(product.getName());
+                    toBeUpdatedProduct.get().setDescription(product.getDescription());
+                    toBeUpdatedProduct.get().setCategory(product.getCategory());
+                    toBeUpdatedProduct.get().setPrice(product.getPrice());
+                    toBeUpdatedProduct.get().setStock(product.getStock());
 
                     return ResponseEntity.ok(this.productService.updateProduct(toBeUpdatedProduct.get()));
                 } else {
-                    return ResponseEntity.status(409).body("A Product with the name " + product.getProductName() + " already exists.");
+                    return ResponseEntity.status(409).body("A Product with the name " + product.getName() + " already exists.");
                 }
             }
         } else {

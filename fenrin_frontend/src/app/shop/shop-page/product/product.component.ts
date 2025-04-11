@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { ToastService } from 'src/app/shared/toast.service';
 
 @Component({
   selector: 'app-product',
@@ -6,5 +7,24 @@ import { Component } from '@angular/core';
   styleUrls: ['./product.component.scss']
 })
 export class ProductComponent {
+  @Input() product!: {
+    name: string,
+    description: string,
+    category: string,
+    price: number,
+    stock: number,
+    imageUrl: string,
+  };
 
+  message = '';
+
+  constructor(private toasterService: ToastService) {
+  }
+
+  addToCart(product: any) {
+  //  TODO: add shopping cart functionality
+
+    //TODO: deze functionaliteit naar parrent verplaatsen?
+    this.toasterService.showSuccess(`${product.name} toegevoegd aan winkelwagen`, 'Toegevoegd');
+  }
 }

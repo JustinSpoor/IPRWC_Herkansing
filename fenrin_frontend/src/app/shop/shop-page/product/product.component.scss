@@ -1,0 +1,58 @@
+.product-container {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  padding: 1rem;
+  transition: transform 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-width: 200px;
+  max-width: 300px;
+  min-height: 200px;
+  justify-content: space-between;
+}
+
+.product-image {
+  margin-top: 0.5rem;
+  width: 100%;
+  max-width: 50px;
+  max-height: 50px;
+}
+
+.product-details {
+  margin-top: 20px;
+}
+
+.price {
+  color: var(--fenrin-blue-color);
+  font-size: 1.5em;
+}
+
+.add-to-cart {
+  background-color: var(--fenrin-red-color);
+  color: var(--fenrin-blue-color);
+  font-size: 1em;
+  padding: 0.4rem 2rem;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  cursor: pointer;
+  box-sizing: border-box;
+  margin-top: 1.3rem;
+}
+
+.add-to-cart:hover {
+  border: 2px solid var(--fenrin-blue-color);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.category {
+  font-size: 0.9em;
+  color: white;
+  background-color: var(--fenrin-blue-color);
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  margin: 0.1rem 0 0.25rem;
+  display: inline-block;
+}

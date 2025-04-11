@@ -33,25 +33,24 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
-                .csrf().disable().cors().and()
+                .csrf().disable()
+                .cors().and()
                 .authorizeHttpRequests(registry -> {
 
-            //Auth routes
-            registry.requestMatchers("/api/authenticate", "/api/refreshtoken").permitAll();
-            registry.requestMatchers("/api/register").denyAll(); //temp op deny
+                    // static image routes
+                    registry.requestMatchers("/images/**").permitAll();
 
+                    // auth routes
+                    registry.requestMatchers("/api/authenticate", "/api/refreshtoken").permitAll();
+                    registry.requestMatchers("/api/register").denyAll();  // Temporary deny
 
-
-
-                    try {
-                        registry.anyRequest().authenticated().and().cors();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    // Any other request needs authentication
+                    registry.anyRequest().authenticated();
                 })
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
+
 
     @Bean
     public UserDetailsService userDetailsService() {

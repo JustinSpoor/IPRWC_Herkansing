@@ -24,8 +24,8 @@ public class ProductService {
         return this.productRepository.findById(id);
     }
 
-    public Optional<Product> getProductByName(String productName) {
-        return this.productRepository.findByProductName(productName);
+    public Optional<Product> getProductByName(String name) {
+        return this.productRepository.findByName(name);
     }
 
     public Product saveProduct(Product product) {
