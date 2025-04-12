@@ -1,5 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import {AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { AuthService } from 'src/app/auth/auth.service';
+import { ToastService } from 'src/app/shared/toast.service';
 import { ShopService } from '../shop.service';
+import { NewProductFormComponent } from './new-product-form/new-product-form.component';
 
 @Component({
   selector: 'app-shop-page',
@@ -9,10 +13,13 @@ import { ShopService } from '../shop.service';
 export class ShopPageComponent {
   products = [];
   searchTerm: string = '';
-  selectedCategory: string = 'All';
+  selectedCategory: string = 'Alles';
   filteredProducts = [];
+  showNewProductModal = false;
+  @ViewChild(NewProductFormComponent) newProductFormComponent!: NewProductFormComponent;
 
-  constructor(private shopService: ShopService) {}
+  constructor(private shopService: ShopService, public authService: AuthService, private toasterService: ToastService) {
+  }
 
   ngOnInit() {
     this.loadProducts();
@@ -27,7 +34,7 @@ export class ShopPageComponent {
 
   getCategories(): string[] {
     const unique = new Set(this.products.map((p: any) => p.category));
-    return ['All', ...Array.from(unique)];
+    return ['Alles', ...Array.from(unique)];
   }
 
   getFilteredProducts() {
@@ -37,7 +44,7 @@ export class ShopPageComponent {
         product.description.toLowerCase().includes(this.searchTerm.toLowerCase());
 
       const matchesCategory =
-        this.selectedCategory === 'All' || product.category === this.selectedCategory;
+        this.selectedCategory === 'Alles' || product.category === this.selectedCategory;
 
       return matchesSearch && matchesCategory;
     });
@@ -45,7 +52,18 @@ export class ShopPageComponent {
   }
 
   addProduct() {
-
+    this.showNewProductModal = true;
   }
+
+  closeModal() {
+    this.showNewProductModal = false;
+    this.newProductFormComponent.resetForm();
+  }
+
+  onProductAdded(newProduct: any) {
+    this.closeModal();
+    console.log(newProduct)
+  }
+
 
 }

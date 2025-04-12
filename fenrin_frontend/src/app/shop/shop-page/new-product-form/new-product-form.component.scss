@@ -1,0 +1,37 @@
+h2 {
+  text-align: center;
+  color: white;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.form-group {
+  margin: 1rem;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button[type="submit"] {
+  width: 100%;
+  padding: 10px;
+  background-color: var(--fenrin-red-color);
+  color: var(--fenrin-blue-color);
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+button[type="submit"]:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.error {
+  color: var(--fenrin-red-color);
+  font-size: 12px;
+}

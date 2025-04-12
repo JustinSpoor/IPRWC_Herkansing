@@ -2,7 +2,7 @@
   <input
     type="text"
     [(ngModel)]="searchTerm"
-    placeholder="Search products..."
+    placeholder="Waar ben je naar op zoek?"
     class="search-bar"
   />
 
@@ -10,13 +10,10 @@
     <select [(ngModel)]="selectedCategory" class="category-select">
       <option *ngFor="let cat of getCategories()" [value]="cat">{{ cat }}</option>
     </select>
-<!--    <button (click)="addProduct()" class="btn btn-add">Nieuw product toevoegen</button>-->
+    <button *ngIf="authService.hasRoles('ROLE_LEAD')" (click)="addProduct()" class="btn btn-add">Nieuw product toevoegen</button>
   </div>
 
-
-
   <div class="products-scroll-wrapper font-barlow-regular">
-
     <div *ngIf="getFilteredProducts().length === 0" class="no-products-message">
       <p>Geen producten gevonden die overeenkomen met je zoekopdracht of categorie.</p>
     </div>
@@ -27,8 +24,10 @@
         [product]="product"
       ></app-product>
     </div>
-
-
-
   </div>
 </div>
+
+
+<app-modal [isVisible]="showNewProductModal" (onClose)="closeModal()">
+  <app-new-product-form (productAdded)="onProductAdded($event)"></app-new-product-form>
+</app-modal>
