@@ -61,9 +61,15 @@ export class ShopPageComponent {
   }
 
   onProductAdded(newProduct: any) {
-    this.closeModal();
-    console.log(newProduct)
+    this.shopService.saveProduct(newProduct).subscribe({
+      next: () => {
+        this.loadProducts();
+        this.closeModal();
+        this.toasterService.showSuccess(`Het nieuwe product ${this.newProductFormComponent.productName} is toegevoegd.`, 'Toegevoegd');
+      },
+      error: () => {
+        this.toasterService.showError(`Er is iets fout gegaan bij het toevoegen van ${this.newProductFormComponent.productName}.`, 'Error');
+      }
+    })
   }
-
-
 }

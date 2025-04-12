@@ -1,11 +1,14 @@
 package nl.kingdom.fenrin.controllers;
 
+import nl.kingdom.fenrin.dto.NewProductDTO;
 import nl.kingdom.fenrin.models.Product;
 import nl.kingdom.fenrin.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -17,20 +20,35 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+
+
     @GetMapping("/productlist")
     private ResponseEntity<List<Product>> getProducts() {
         return ResponseEntity.ok(this.productService.getProducts());
     }
 
     @PostMapping("/product")
-    private ResponseEntity<?> saveProduct (@RequestBody Product product) {
-        Optional<Product> checkIfProductExists = this .productService.getProductByName(product.getName());
+    private ResponseEntity<?> saveProduct (@RequestPart("product") NewProductDTO product, @RequestParam("image")MultipartFile image) {
+        Optional<Product> checkIfProductExists = this.productService.getProductByName(product.getName());
 
         if(checkIfProductExists.isEmpty()) {
-            return ResponseEntity.ok(this.productService.saveProduct(product));
+            try{
+                String imagePath = this.productService.saveProductImage(image);
+
+                Product newProduct = this.productService.formatNewProduct(product, imagePath);
+
+                return ResponseEntity.ok(this.productService.saveProduct(newProduct));
+            } catch (IOException e) {
+                return ResponseEntity.status(500).body("Failed to Save the image");
+            }
+
         } else {
             return ResponseEntity.status(409).body("Product with name " + product.getName() +  " already exists");
         }
+
+
+
+
     }
 
     @PatchMapping("/build")

@@ -17,7 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
 
 
 @Configuration
@@ -40,9 +40,13 @@ public class SecurityConfig {
                     // static image routes
                     registry.requestMatchers("/images/**").permitAll();
 
-                    // auth routes
-                    registry.requestMatchers("/api/authenticate", "/api/refreshtoken", "/api/productlist").permitAll();
+                    // Auth routes
+                    registry.requestMatchers("/api/authenticate", "/api/refreshtoken").permitAll();
                     registry.requestMatchers("/api/register").denyAll();  // Temporary deny
+
+                    // Product routes
+                    registry.requestMatchers("/api/productlist").permitAll();
+                    registry.requestMatchers("/api/product").hasAnyAuthority(Roles.ROLE_LEAD.toString());
 
                     // Any other request needs authentication
                     registry.anyRequest().authenticated();

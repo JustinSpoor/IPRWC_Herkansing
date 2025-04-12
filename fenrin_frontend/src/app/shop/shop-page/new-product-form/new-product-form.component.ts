@@ -10,6 +10,7 @@ export class NewProductFormComponent {
   form: FormGroup;
   @ViewChild('fileInput') fileInput!: ElementRef;
   @Output() productAdded = new EventEmitter<any>();
+  productName = '';
 
   constructor(private formBuilder: FormBuilder) {
     this.form = this.formBuilder.group({
@@ -63,14 +64,25 @@ export class NewProductFormComponent {
   }
 
   formatNewProduct() {
-    return {
+    const formData = new FormData();
+
+    this.productName = this.form.get('name')?.value;
+
+    const product = {
       name: this.form.get('name')?.value,
       description: this.form.get('description')?.value,
       category: this.form.get('category')?.value,
       price: this.form.get('price')?.value,
       stock: this.form.get('stock')?.value,
-      image: this.form.get('image')?.value,
-    }
+    };
+
+    formData.append('product', new Blob([JSON.stringify(product)], {type: 'application/json'}));
+
+    const imageFile = this.form.get('image')?.value
+
+    formData.append('image', imageFile, imageFile.name);
+
+    return formData;
   }
 
 }
