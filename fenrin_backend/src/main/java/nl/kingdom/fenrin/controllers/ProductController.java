@@ -51,7 +51,7 @@ public class ProductController {
 
     }
 
-    @PatchMapping("/build")
+    @PatchMapping("/product")
     private ResponseEntity<?> updateProduct(@RequestBody Product product) {
         Optional<Product> toBeUpdatedProduct = this.productService.getProductById(product.getId());
         Optional<Product> checkIfNameIsAlreadyUsed = this.productService.getProductByName(product.getName());
