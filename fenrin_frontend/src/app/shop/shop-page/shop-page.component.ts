@@ -4,6 +4,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { ToastService } from 'src/app/shared/toast.service';
 import { ShopService } from '../shop.service';
 import { NewProductFormComponent } from './new-product-form/new-product-form.component';
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-shop-page',
@@ -16,6 +17,7 @@ export class ShopPageComponent {
   selectedCategory: string = 'Alles';
   filteredProducts = [];
   showNewProductModal = false;
+  toBeUpdatedProduct: any;
   @ViewChild(NewProductFormComponent) newProductFormComponent!: NewProductFormComponent;
 
   constructor(private shopService: ShopService, public authService: AuthService, private toasterService: ToastService) {
@@ -55,9 +57,18 @@ export class ShopPageComponent {
     this.showNewProductModal = true;
   }
 
+  onProductToBeUpdated(toBeUpdatedProduct: any) {
+    this.toBeUpdatedProduct = toBeUpdatedProduct;
+    this.showNewProductModal = true;
+  }
+
   closeModal() {
     this.showNewProductModal = false;
     this.newProductFormComponent.resetForm();
+
+    setTimeout(() => {
+      this.toBeUpdatedProduct = null;
+    }, 0)
   }
 
   onProductAdded(newProduct: any) {
@@ -72,4 +83,47 @@ export class ShopPageComponent {
       }
     })
   }
+
+  onProductUpdated(updatedProduct: any) {
+    this.shopService.updateProduct(updatedProduct).subscribe({
+      next: () => {
+        this.loadProducts();
+        this.closeModal();
+        this.toasterService.showSuccess(`Het product ${this.newProductFormComponent.productName} is gewijzigd.`, 'Gewijzijgd')
+      },
+      error: (error) => {
+        if(error.toString().includes(404)) {
+          this.toasterService.showError(`Het product dat je probeerd aan te passen bestaat niet`, 'Error');
+        }
+        if(error.toString().includes(409)) {
+          this.toasterService.showError(`Er bestaat al een product met de naam ${this.newProductFormComponent.productName}`, 'Error')
+        }
+      }
+    })
+  }
+
+  onRemoveProduct(toBeRemovedProduct: any) {
+    Swal.fire({
+      title: 'Weet je het zeker?',
+      text: 'Deze actie is onomkeerbaar',
+      color: 'white',
+      showCancelButton: true,
+      confirmButtonText: 'Verwijderen',
+      cancelButtonText: 'Annuleren'
+    }).then((result) => {
+      if(result.isConfirmed) {
+        this.shopService.deleteProduct(toBeRemovedProduct.id).subscribe({
+          next: () => {
+            this.loadProducts();
+            this.closeModal();
+            this.toasterService.showInfo(`Product verwijderd`, 'Verwijderd');
+          },
+          error: () => {
+            this.toasterService.showError('Product was al verwijderd', 'Error');
+          }
+        });
+      }
+    });
+  }
+
 }

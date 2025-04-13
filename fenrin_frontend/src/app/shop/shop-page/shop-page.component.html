@@ -22,6 +22,7 @@
       <app-product
         *ngFor="let product of getFilteredProducts()"
         [product]="product"
+        (toBeUpdatedProduct)="onProductToBeUpdated($event)"
       ></app-product>
     </div>
   </div>
@@ -29,5 +30,9 @@
 
 
 <app-modal [isVisible]="showNewProductModal" (onClose)="closeModal()">
-  <app-new-product-form (productAdded)="onProductAdded($event)"></app-new-product-form>
+  <app-new-product-form (productAdded)="onProductAdded($event)"
+                        (productUpdated)="onProductUpdated($event)"
+                        (removeProduct)="onRemoveProduct($event)"
+                        [toBeUpdatedProduct]="toBeUpdatedProduct">
+  </app-new-product-form>
 </app-modal>

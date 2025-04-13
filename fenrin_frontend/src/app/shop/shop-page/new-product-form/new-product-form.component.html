@@ -1,4 +1,6 @@
-<h2 class="font-barlow-regular">Nieuw Product Toevoegen</h2>
+<h2 class="font-barlow-regular" *ngIf="!currentlyUpdating">Nieuw Product Toevoegen</h2>
+<h2 class="font-barlow-regular" *ngIf="currentlyUpdating">Product wijzigen</h2>
+
 <form [formGroup]="form" (ngSubmit)="onSubmit()" class="font-barlow-regular">
   <div class="form-group">
     <label for="name">Naam</label>
@@ -48,11 +50,15 @@
     </div>
   </div>
 
-  <div class="form-group">
+  <div class="form-group" *ngIf="!currentlyUpdating">
     <label>Afbeelding</label>
     <input type="file" #fileInput (change)="onFileChange($event)">
     <div *ngIf="form.controls['image'].errors?.['invalidFileType']" class="error" >* Alleen JPG en PNG bestanden zijn toegestaan.</div>
   </div>
 
-  <button class="form-button" type="submit" [disabled]="form.invalid">Product aanmaken</button>
+  <div class="buttons">
+    <button *ngIf="!currentlyUpdating" class="btn btn-succes" type="submit" [disabled]="form.invalid">Product toevoegen</button>
+    <button *ngIf="currentlyUpdating" class="btn btn-edit" type="submit" [disabled]="form.invalid">Product wijzigen</button>
+    <button *ngIf="currentlyUpdating" class="btn" type="button" (click)="handleRemoveProduct()" >Product verwijderen</button>
+  </div>
 </form>

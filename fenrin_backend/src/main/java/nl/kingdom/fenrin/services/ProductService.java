@@ -48,7 +48,33 @@ public class ProductService {
     }
 
     public void deleteProduct(Product product) {
+
+        deleteImageFromFileSystem(product.getImageUrl());
+
         this.productRepository.delete(product);
+    }
+
+    public void deleteImageFromFileSystem(String imageUrl) {
+        try{
+            String fileName = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
+
+            String fullPath = uploadDir + File.separator + fileName;
+
+            File file = new File(fullPath);
+
+            if(file.exists()) {
+                if(file.delete()) {
+                    //TODO change print statements for a logger
+                    System.out.println("Deleted image: " + fullPath);
+                } else {
+                    System.err.println("Failed to delete image: " + fullPath);
+                }
+            } else {
+                System.err.println("Image file not found: " + fullPath);
+            }
+        } catch (Exception e) {
+            System.err.println("Error while deleting image: " + e.getMessage());
+        }
     }
 
     public String saveProductImage( MultipartFile image) throws IOException {

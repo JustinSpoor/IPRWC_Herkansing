@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { AuthService } from 'src/app/auth/auth.service';
 import { ToastService } from 'src/app/shared/toast.service';
 
 @Component({
@@ -7,6 +8,7 @@ import { ToastService } from 'src/app/shared/toast.service';
   styleUrls: ['./product.component.scss']
 })
 export class ProductComponent {
+  @Output() toBeUpdatedProduct = new EventEmitter<any>();
   @Input() product!: {
     name: string,
     description: string,
@@ -18,7 +20,11 @@ export class ProductComponent {
 
   message = '';
 
-  constructor(private toasterService: ToastService) {
+  constructor(private toasterService: ToastService, public authService: AuthService) {
+  }
+
+  editProduct(toBeUpdatedProduct: any) {
+    this.toBeUpdatedProduct.emit(toBeUpdatedProduct);
   }
 
   addToCart(product: any) {
