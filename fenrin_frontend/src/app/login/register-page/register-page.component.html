@@ -1,6 +1,11 @@
-<div class="login-container">
+<button class="back-btn" routerLink="/login">
+  <i class="fas fa-arrow-left"></i>
+</button>
+
+
+<div class="register-container">
   <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
-    <h2 class="font-barlow-regular">Login</h2>
+    <h2 class="font-barlow-regular">Account aanmaken</h2>
 
     <div class="form-group">
       <label for="username" class="font-barlow-regular">Gebruikersnaam</label>
@@ -40,7 +45,34 @@
         * Wachtwoord is verplicht.
       </div>
     </div>
-    <a class="font-barlow-regular" routerLink="/register" routerLinkActive="active">Nog geen account? Maak er één aan!</a>
+
+    <div class="form-group">
+      <label for="passwordRepeat" class="font-barlow-regular">Herhaal wachtwoord</label>
+      <div class="input-wrapper">
+        <input
+          [type]="showPasswordRepeat ? 'text' : 'password'"
+          id="passwordRepeat"
+          name="passwordRepeat"
+          class="form-control"
+          [(ngModel)]="passwordRepeat"
+          required
+          #passwordRepeatField="ngModel"
+        />
+        <i
+          class="fas"
+          [ngClass]="showPasswordRepeat ? 'fa-eye-slash' : 'fa-eye'"
+          (click)="showPasswordRepeat = !showPasswordRepeat">
+        </i>
+      </div>
+      <div *ngIf="passwordRepeatField.invalid && passwordRepeatField.touched" class="error font-barlow-regular">
+        * Wachtwoord herhalen is verplicht.
+      </div>
+    </div>
+
+    <div *ngIf="passwordRepeatField.touched && passwordField.touched && password !== passwordRepeat" class="error font-barlow-regular">
+      * Wachtwoorden komen niet overeen.
+    </div>
+
     <button type="submit" class="btn font-barlow-regular" [disabled]="loginForm.invalid">Login</button>
   </form>
 </div>

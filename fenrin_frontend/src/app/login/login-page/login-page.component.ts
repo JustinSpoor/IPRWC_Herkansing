@@ -10,6 +10,7 @@ import {ToastService} from "../../shared/toast.service";
 export class LoginPageComponent {
   username: string = '';
   password: string = '';
+  showPassword: boolean = false;
 
   constructor(private authService: AuthService,private toasterService: ToastService) {
   }
