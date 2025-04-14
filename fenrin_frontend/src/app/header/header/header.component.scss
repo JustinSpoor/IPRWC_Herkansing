@@ -61,5 +61,20 @@
   background-color: rgba(238, 238, 238, 0.5);
 }
 
+.shoppingCartButton {
+  background-color: #ffffff;
+  color: var(--fenrin-blue-color);
+  font-size: 1.2rem;
+  padding: 8px 12px;
+  margin: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  border: none;
+}
+
+.shoppingCartButton:hover {
+  background-color: rgba(238,238,238, 0.5);
+}
+
 
 

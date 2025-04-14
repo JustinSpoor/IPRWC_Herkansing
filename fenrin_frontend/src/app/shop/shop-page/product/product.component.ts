@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AuthService } from 'src/app/auth/auth.service';
 import { ToastService } from 'src/app/shared/toast.service';
+import { ShoppingCartService } from '../../shopping-cart.service';
 
 @Component({
   selector: 'app-product',
@@ -10,6 +11,7 @@ import { ToastService } from 'src/app/shared/toast.service';
 export class ProductComponent {
   @Output() toBeUpdatedProduct = new EventEmitter<any>();
   @Input() product!: {
+    id: string,
     name: string,
     description: string,
     category: string,
@@ -20,7 +22,7 @@ export class ProductComponent {
 
   message = '';
 
-  constructor(private toasterService: ToastService, public authService: AuthService) {
+  constructor(private toasterService: ToastService, private shoppingCartService: ShoppingCartService, public authService: AuthService) {
   }
 
   editProduct(toBeUpdatedProduct: any) {
@@ -28,9 +30,19 @@ export class ProductComponent {
   }
 
   addToCart(product: any) {
-  //  TODO: add shopping cart functionality
+    const item = {
+      productId: this.product.id,
+      name: this.product.name,
+      description: this.product.description,
+      price: this.product.price,
+      quantity: 1,
+      stock: this.product.stock,
+      imageUrl: this.product.imageUrl
+    }
 
-    //TODO: deze functionaliteit naar parrent verplaatsen?
-    this.toasterService.showSuccess(`${product.name} toegevoegd aan winkelwagen`, 'Toegevoegd');
+    this.shoppingCartService.addToCart(item)
   }
+
+
+
 }

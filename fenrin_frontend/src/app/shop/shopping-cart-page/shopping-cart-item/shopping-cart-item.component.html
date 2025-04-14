@@ -1,0 +1,25 @@
+<div class="cart-item">
+
+  <div class="trash-icon" (click)="removeItem()">
+    <i class="fas fa-trash"></i>
+  </div>
+
+  <img [src]="cartItem.imageUrl" alt="{{ cartItem.name }}" />
+
+  <div class="details">
+    <h3>{{ cartItem.name }}</h3>
+    <p class="desc">{{ cartItem.description }}</p>
+    <div class="price-quantity">
+      <span class="price">Totaal: €{{ getTotalPrice() | number:'1.2-2' }}</span>
+      <div class="quantity">
+        <button (click)="decreaseQuantity()" aria-label="Hoeveelheid verlagen">
+          <i class="fas fa-minus"></i>
+        </button>
+        <span>{{ cartItem.quantity }}</span>
+        <button (click)="increaseQuantity()" [disabled]="cartItem.quantity >= cartItem.stock" aria-label="Hoeveelheid verhogen">
+          <i class="fas fa-plus"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

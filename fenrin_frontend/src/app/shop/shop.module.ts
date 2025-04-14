@@ -6,13 +6,17 @@ import { ProductComponent} from './shop-page/product/product.component'
 import { SharedModule } from '../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NewProductFormComponent } from './shop-page/new-product-form/new-product-form.component';
+import { ShoppingCartPageComponent } from './shopping-cart-page/shopping-cart-page.component';
+import { ShoppingCartItemComponent } from './shopping-cart-page/shopping-cart-item/shopping-cart-item.component';
 
 
 @NgModule({
   declarations: [
     ShopPageComponent,
     ProductComponent,
-    NewProductFormComponent
+    NewProductFormComponent,
+    ShoppingCartPageComponent,
+    ShoppingCartItemComponent
   ],
   imports: [
     CommonModule,
