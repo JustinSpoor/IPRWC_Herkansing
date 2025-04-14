@@ -123,6 +123,15 @@ export class AuthService {
     return roles.includes(role)
   }
 
+  getUsername() {
+    const token = localStorage.getItem(this.JWT_TOKEN);
+    if(!token) {
+      return;
+    }
+    const decodedToken: any = jwtDecode(token);
+    return decodedToken?.sub;
+  }
+
   logout() {
     localStorage.removeItem(this.JWT_TOKEN);
     localStorage.removeItem(this.JWT_REFRESH_TOKEN);

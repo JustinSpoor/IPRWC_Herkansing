@@ -47,6 +47,9 @@ public class SecurityConfig {
                     registry.requestMatchers("/api/productlist").permitAll();
                     registry.requestMatchers("/api/product").hasAnyAuthority(Roles.ROLE_LEAD.toString());
 
+                    // Cart routes
+                    registry.requestMatchers("/api/cart", "/api/cart/**").hasAnyAuthority(Roles.ROLE_SPELER.toString());
+
                     // Any other request needs authentication
                     registry.anyRequest().authenticated();
                 })

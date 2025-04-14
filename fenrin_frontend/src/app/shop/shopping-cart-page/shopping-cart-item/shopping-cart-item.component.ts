@@ -27,14 +27,14 @@ export class ShoppingCartItemComponent {
   increaseQuantity() {
     if (this.cartItem.quantity < this.cartItem.stock) {
       this.cartItem.quantity += 1;
-      this.quantityUpdated.emit(this.cartItem);
+      this.quantityUpdated.emit({...this.cartItem});
     }
   }
 
   decreaseQuantity() {
     if(this.cartItem.quantity > 0) {
       this.cartItem.quantity -= 1;
-      this.quantityUpdated.emit(this.cartItem);
+      this.quantityUpdated.emit({...this.cartItem});
     }
 
     if(this.cartItem.quantity == 0) {

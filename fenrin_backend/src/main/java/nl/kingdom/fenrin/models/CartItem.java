@@ -1,5 +1,6 @@
 package nl.kingdom.fenrin.models;
 
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -7,27 +8,30 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
 import java.util.UUID;
 
-
-@Entity
-@AllArgsConstructor
 @Getter
 @Setter
+@Entity
+@AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "users")
-public class MyUser {
+public class CartItem {
 
     @Id
-    @GeneratedValue()
-    @Column(name = "id")
+    @GeneratedValue
     private UUID id;
-    private String username;
-    private String password;
-    private String role;
 
-    @OneToMany(mappedBy = "user")
+    @ManyToOne
+    @JoinColumn(name = "cart_id")
     @JsonBackReference
-    private List<Cart> carts;
+    private Cart cart;
+
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
+
+    private int quantity;
+
+    public CartItem(UUID id, UUID productId, int i) {
+    }
 }

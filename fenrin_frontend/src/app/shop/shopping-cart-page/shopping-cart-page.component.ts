@@ -8,7 +8,8 @@ import { ShoppingCartService } from '../shopping-cart.service';
   styleUrls: ['./shopping-cart-page.component.scss']
 })
 export class ShoppingCartPageComponent {
-  cart: any = [];
+  cart$ = this.shoppingCartService.cartItems$;
+
 
   constructor(private authService: AuthService, private shoppingCartService: ShoppingCartService) {
   }
@@ -19,9 +20,9 @@ export class ShoppingCartPageComponent {
 
   loadCart() {
     if(this.authService.isLoggedIn()) {
-      //retrieve cart from backend
+      this.shoppingCartService.loadCartFromBackend()
     } else {
-      this.cart = this.shoppingCartService.getCartItems();
+      this.shoppingCartService.loadCartFromStorage();
     }
   }
 
@@ -30,7 +31,6 @@ export class ShoppingCartPageComponent {
   }
 
   removeCartItem(cartItem: any) {
-    this.cart = this.cart.filter((item: any) => item.productId !== cartItem.productId);
     this.shoppingCartService.removeItem(cartItem.productId);
   }
 

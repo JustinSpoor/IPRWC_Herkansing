@@ -39,6 +39,24 @@ h2 {
   margin-bottom: 1rem;
 }
 
+.empty-cart-message {
+  text-align: center;
+  padding: 20px;
+  font-size: 1.2em;
+  color: var(--fenrin-blue-color);
+  background-color: var(--fenrin-red-color);
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+a {
+  color: white;
+}
+
+a:hover {
+  opacity: 0.7;
+}
+
 .cart-items {
   flex-grow: 1;
   overflow-y: auto;

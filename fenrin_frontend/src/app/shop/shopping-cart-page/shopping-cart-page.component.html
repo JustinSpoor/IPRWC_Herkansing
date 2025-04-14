@@ -1,13 +1,18 @@
 <div class="container font-barlow-regular">
   <h2 class="">Winkelmandje</h2>
 
+  <div *ngIf="(cart$ | async)?.length === 0" class="empty-cart-message">
+    Je winkelmandje is leeg. <a routerLink="/shop" class="shop-link">Bekijk onze producten</a> om te beginnen met winkelen!
+  </div>
+
   <div class="cart-items">
     <app-shopping-cart-item
-      *ngFor="let cartItem of cart"
+      *ngFor="let cartItem of cart$ | async"
       [cartItem]="cartItem"
-      (quantittyUpdated)="updateCartItemQuantity($event)"
+      (quantityUpdated)="updateCartItemQuantity($event)"
       (itemRemoved)="removeCartItem($event)">
     </app-shopping-cart-item>
+
   </div>
 
   <div class="total-price">
