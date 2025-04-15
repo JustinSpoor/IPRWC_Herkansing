@@ -27,7 +27,7 @@ public class ProductService {
     @Value("${file.upload-dir}")
     private String uploadDir;
 
-    @Value("$VPS_HOST")
+    @Value("${VPS_HOST}")
     private String vpsHost;
 
     public List<Product> getProducts() {
