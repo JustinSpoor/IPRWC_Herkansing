@@ -99,13 +99,18 @@ export class ShoppingCartService {
 
   updateQuantity(cartItem: any) {
     const existingItem = this.items.find((item: any) => item.productId === cartItem.productId);
+
     if (existingItem) {
-      existingItem.quantity = cartItem.quantity;
-      if (this.authService.isLoggedIn()) {
-        this.httpService.httpPatch(`${this.cartRoute}/${this.authService.getUsername()}/${cartItem.productId}/${cartItem.quantity}`, null).subscribe(() =>
-          this.loadCartFromBackend());
+      if (cartItem.quantity === 0) {
+        return;
       } else {
-        this.updateCartItems([...this.items]);
+        existingItem.quantity = cartItem.quantity;
+        if (this.authService.isLoggedIn()) {
+          this.httpService.httpPatch(`${this.cartRoute}/${this.authService.getUsername()}/${cartItem.productId}/${cartItem.quantity}`, null)
+            .subscribe(() => this.loadCartFromBackend());
+        } else {
+          this.updateCartItems([...this.items]);
+        }
       }
     }
   }
