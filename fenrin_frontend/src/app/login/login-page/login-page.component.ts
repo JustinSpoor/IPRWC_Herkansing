@@ -10,6 +10,7 @@ import {ToastService} from "../../shared/toast.service";
 export class LoginPageComponent {
   username: string = '';
   password: string = '';
+  showPassword: boolean = false;
 
   constructor(private authService: AuthService,private toasterService: ToastService) {
   }
@@ -20,6 +21,7 @@ export class LoginPageComponent {
       password: this.password
     }).subscribe({
       next: () => {
+        //TODO syncen van guest localstorrage cart en logged in cart.
         this.toasterService.showSuccess(`Ingelogd als ${this.username}`, 'Login geslaagd')
       },
       error: () => {

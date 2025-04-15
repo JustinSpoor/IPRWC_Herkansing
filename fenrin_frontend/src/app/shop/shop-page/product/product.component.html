@@ -1,0 +1,11 @@
+<div class="product-container font-barlow-regular">
+  <i class="fas fa-cog edit-icon" (click)="editProduct(product)" *ngIf="authService.hasRoles('ROLE_LEAD')"></i>
+  <h1>{{ product.name }}</h1>
+  <p class="category">{{ product.category }}</p>
+  <img [src]="product.imageUrl" [alt]="product.name" class="product-image">
+  <div class="product-details">
+    <p>{{ product.description }}</p>
+    <p class="price">${{ product.price }}</p>
+    <button class="add-to-cart" (click)="addToCart(product)" [disabled]="product.stock <= 0">Aan winkelwagen toevoegen</button>
+  </div>
+</div>

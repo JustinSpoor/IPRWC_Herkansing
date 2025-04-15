@@ -1,0 +1,78 @@
+<button class="back-btn" routerLink="/login">
+  <i class="fas fa-arrow-left"></i>
+</button>
+
+
+<div class="register-container">
+  <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+    <h2 class="font-barlow-regular">Account aanmaken</h2>
+
+    <div class="form-group">
+      <label for="username" class="font-barlow-regular">Gebruikersnaam</label>
+      <input
+        type="text"
+        id="username"
+        name="username"
+        class="form-control"
+        [(ngModel)]="username"
+        required
+        #usernameField="ngModel"
+      />
+      <div *ngIf="usernameField.invalid && usernameField.touched" class="error font-barlow-regular">
+        * Gebruikersnaam is verplicht.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="password" class="font-barlow-regular">Wachtwoord</label>
+      <div class="input-wrapper">
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          id="password"
+          name="password"
+          class="form-control"
+          [(ngModel)]="password"
+          required
+          #passwordField="ngModel"
+        />
+        <i
+          class="fas"
+          [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"
+          (click)="showPassword = !showPassword">
+        </i>
+      </div>
+      <div *ngIf="passwordField.invalid && passwordField.touched" class="error font-barlow-regular">
+        * Wachtwoord is verplicht.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="passwordRepeat" class="font-barlow-regular">Herhaal wachtwoord</label>
+      <div class="input-wrapper">
+        <input
+          [type]="showPasswordRepeat ? 'text' : 'password'"
+          id="passwordRepeat"
+          name="passwordRepeat"
+          class="form-control"
+          [(ngModel)]="passwordRepeat"
+          required
+          #passwordRepeatField="ngModel"
+        />
+        <i
+          class="fas"
+          [ngClass]="showPasswordRepeat ? 'fa-eye-slash' : 'fa-eye'"
+          (click)="showPasswordRepeat = !showPasswordRepeat">
+        </i>
+      </div>
+      <div *ngIf="passwordRepeatField.invalid && passwordRepeatField.touched" class="error font-barlow-regular">
+        * Wachtwoord herhalen is verplicht.
+      </div>
+    </div>
+
+    <div *ngIf="passwordRepeatField.touched && passwordField.touched && password !== passwordRepeat" class="error font-barlow-regular">
+      * Wachtwoorden komen niet overeen.
+    </div>
+
+    <button type="submit" class="btn font-barlow-regular" [disabled]="loginForm.invalid">Account aanmaken</button>
+  </form>
+</div>

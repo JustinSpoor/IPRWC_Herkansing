@@ -27,6 +27,22 @@ export class AuthService {
     )
   }
 
+  register(user: {
+    username: string,
+    password: string,
+  }) {
+
+    return this.httpService.httpPost('register', user).subscribe({
+      next: () => {
+        this.toasterService.showSuccess(`Account voor ${user.username} is succesvol aangemaakt!`, 'Account aangemaakt');
+        this.router.navigate(['/login']);
+      },
+      error: () => {
+        this.toasterService.showError(`Er bestaat al een account met de naam ${user.username}`, 'Error');
+      }
+    });
+  }
+
   private doLoginUser(username: string, token: any, refreshToken: any) {
     this.loggedUser = username;
     this.storeJwtToken(token);
@@ -105,6 +121,15 @@ export class AuthService {
   hasRoles(role: string): boolean {
     const roles = this.getRoles();
     return roles.includes(role)
+  }
+
+  getUsername() {
+    const token = localStorage.getItem(this.JWT_TOKEN);
+    if(!token) {
+      return;
+    }
+    const decodedToken: any = jwtDecode(token);
+    return decodedToken?.sub;
   }
 
   logout() {

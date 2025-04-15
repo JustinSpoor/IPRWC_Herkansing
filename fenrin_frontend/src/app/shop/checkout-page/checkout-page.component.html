@@ -1,0 +1,8 @@
+<button class="back-btn" routerLink="/cart">
+  <i class="fas fa-arrow-left"></i>
+</button>
+
+<div class="container font-barlow-regular">
+  <h2>Bestellen</h2>
+  <app-checkout-form (submitOrder)="onSubmitOrder($event)" ></app-checkout-form>
+</div>

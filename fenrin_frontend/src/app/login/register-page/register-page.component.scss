@@ -1,0 +1,87 @@
+.register-container {
+  max-width: 400px;
+  margin: 5rem auto 0;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: var(--fenrin-blue-color);
+
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: white;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      color: white;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 8px;
+      box-sizing: border-box;
+      border-radius: 4px;
+    }
+  }
+
+  .btn {
+    width: 100%;
+    padding: 10px;
+    background-color: var(--fenrin-red-color);
+    color: var(--fenrin-blue-color);
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 0.5rem;
+
+    &:disabled {
+      background-color: #ccc;
+      cursor: default;
+    }
+  }
+}
+
+.input-wrapper {
+  position: relative;
+
+  input {
+    width: 100%;
+    padding-right: 2.5rem;
+  }
+
+  i {
+    position: absolute;
+    top: 50%;
+    right: 0.75rem;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #888;
+
+    &:hover {
+      color: #333;
+    }
+  }
+}
+
+.error {
+  color: var(--fenrin-red-color);
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.back-btn {
+  margin: 5rem 0 1rem 2rem;
+  font-size: 1.2rem;
+  color: var(--fenrin-blue-color);
+  background-color: white;
+  border: none;
+  cursor: pointer;
+}
+
+

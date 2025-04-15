@@ -1,0 +1,55 @@
+<form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
+  <div class="form-group">
+    <label>Naam</label>
+    <input formControlName="name" type="text" required>
+    <div *ngIf="checkoutForm.get('name')?.invalid && checkoutForm.get('name')?.touched" class="error">
+      <div *ngIf="checkoutForm.get('name')?.errors?.['required']">* Naam moet worden ingevuld.</div>
+      <div *ngIf="checkoutForm.get('name')?.errors?.['maxlength']">* Naam mag maximaal 30 karakters bevatten</div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>Adres</label>
+    <input formControlName="address" type="text" required>
+    <div *ngIf="checkoutForm.get('address')?.invalid && checkoutForm.get('address')?.touched" class="error">
+      <div *ngIf="checkoutForm.get('address')?.errors?.['required']">* Adres moet worden ingevuld.</div>
+      <div *ngIf="checkoutForm.get('address')?.errors?.['maxlength']">* Adres mag maximaal 100 karakters bevatten</div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>Postcode</label>
+    <input formControlName="zip" type="text" required>
+    <div *ngIf="checkoutForm.get('zip')?.invalid && checkoutForm.get('zip')?.touched" class="error">
+      <div *ngIf="checkoutForm.get('zip')?.errors?.['required']">* Postcode moet worden ingevuld.</div>
+      <div *ngIf="checkoutForm.get('zip')?.errors?.['maxlength']">* Postcode mag maximaal 10 karakters bevatten</div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>Stad</label>
+    <input formControlName="city" type="text" required>
+    <div *ngIf="checkoutForm.get('city')?.invalid && checkoutForm.get('city')?.touched" class="error">
+      <div *ngIf="checkoutForm.get('city')?.errors?.['required']">* Stad moet worden ingevuld.</div>
+      <div *ngIf="checkoutForm.get('city')?.errors?.['maxlength']">* Stad mag maximaal 30 karakters bevatten</div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>E-mail</label>
+    <input formControlName="email" type="email" required>
+    <div *ngIf="checkoutForm.get('email')?.invalid && checkoutForm.get('email')?.touched" class="error">
+      <div *ngIf="checkoutForm.get('email')?.errors?.['required']">* E-mail moet worden ingevuld.</div>
+      <div *ngIf="checkoutForm.get('email')?.errors?.['maxlength']">* E-mail mag maximaal 50 karakters bevatten</div>
+      <div *ngIf="checkoutForm.get('email')?.errors?.['email']">* Er moet een valide E-mail worden ingevuld</div>
+    </div>
+  </div>
+
+  <div class="total-price">
+    <span>Totaalprijs: €{{ getCartTotal() | number: '1.2-2' }}</span>
+  </div>
+
+  <button class="btn" type="submit" [disabled]="checkoutForm.invalid">
+    Plaats bestelling
+  </button>
+</form>

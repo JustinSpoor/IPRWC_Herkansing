@@ -44,10 +44,41 @@
     border-radius: 4px;
     font-size: 16px;
     cursor: pointer;
+    margin-top: 0.5rem;
 
     &:disabled {
       background-color: #ccc;
       cursor: default;
     }
   }
+}
+
+.input-wrapper {
+  position: relative;
+
+  input {
+    width: 100%;
+    padding-right: 2.5rem;
+  }
+
+  i {
+    position: absolute;
+    top: 50%;
+    right: 0.75rem;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #888;
+
+    &:hover {
+      color: #333;
+    }
+  }
+}
+
+a {
+  text-decoration: underline;
+  color: white;
+  font-size: 0.75em;
+  padding: 0.5rem 0.25rem;
+  transition: background-color 0.3s, color 0.3s;
 }

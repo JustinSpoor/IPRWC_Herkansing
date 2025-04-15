@@ -4,7 +4,7 @@ import {PageNotFoundComponent} from "./error/page-not-found/page-not-found.compo
 import { homeRoutes } from './home/home-routing.module'
 import {loginRoutes} from "./login/login-routing.module";
 import {aboutRoutes} from "./about/about-routing.module";
-
+import {shopRoutes} from "./shop/shop-routing.module"
 
 
 const routes: Routes = [
@@ -18,6 +18,7 @@ const routes: Routes = [
       },
       ...homeRoutes,
       ...aboutRoutes,
+      ...shopRoutes,
       ...loginRoutes,
       {
         path: '**',

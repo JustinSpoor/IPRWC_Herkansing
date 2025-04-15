@@ -1,0 +1,18 @@
+.container {
+  max-width: 1000px;
+  margin: 3rem auto 5rem auto;
+  padding: 2rem;
+  background: var(--fenrin-blue-color);
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  color: white;
+}
+
+.back-btn {
+  margin: 5rem 0 1rem 2rem;
+  font-size: 1.2rem;
+  color: var(--fenrin-blue-color);
+  background-color: white;
+  border: none;
+  cursor: pointer;
+}

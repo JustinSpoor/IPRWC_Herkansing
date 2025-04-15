@@ -17,7 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
 
 
 @Configuration
@@ -33,25 +33,30 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
-                .csrf().disable().cors().and()
+                .csrf().disable()
+                .cors().and()
                 .authorizeHttpRequests(registry -> {
 
-            //Auth routes
-            registry.requestMatchers("/api/authenticate", "/api/refreshtoken").permitAll();
-            registry.requestMatchers("/api/register").denyAll(); //temp op deny
+                    // static image routes
+                    registry.requestMatchers("/images/**").permitAll();
 
+                    // Auth routes
+                    registry.requestMatchers("/api/authenticate", "/api/refreshtoken", "/api/register").permitAll();
 
+                    // Product routes
+                    registry.requestMatchers("/api/productlist").permitAll();
+                    registry.requestMatchers("/api/product").hasAnyAuthority(Roles.ROLE_LEAD.toString());
 
+                    // Cart routes
+                    registry.requestMatchers("/api/cart", "/api/cart/**").hasAnyAuthority(Roles.ROLE_SPELER.toString());
 
-                    try {
-                        registry.anyRequest().authenticated().and().cors();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    // Any other request needs authentication
+                    registry.anyRequest().authenticated();
                 })
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
+
 
     @Bean
     public UserDetailsService userDetailsService() {

@@ -5,7 +5,7 @@
     <div class="form-group">
       <label for="username" class="font-barlow-regular">Gebruikersnaam</label>
       <input
-        type="username"
+        type="text"
         id="username"
         name="username"
         class="form-control"
@@ -14,26 +14,33 @@
         #usernameField="ngModel"
       />
       <div *ngIf="usernameField.invalid && usernameField.touched" class="error font-barlow-regular">
-        Gebruikersnaam is verplicht.
+        * Gebruikersnaam is verplicht.
       </div>
     </div>
 
     <div class="form-group">
       <label for="password" class="font-barlow-regular">Wachtwoord</label>
-      <input
-        type="password"
-        id="password"
-        name="password"
-        class="form-control"
-        [(ngModel)]="password"
-        required
-        #passwordField="ngModel"
-      />
+      <div class="input-wrapper">
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          id="password"
+          name="password"
+          class="form-control"
+          [(ngModel)]="password"
+          required
+          #passwordField="ngModel"
+        />
+        <i
+          class="fas"
+          [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"
+          (click)="showPassword = !showPassword">
+        </i>
+      </div>
       <div *ngIf="passwordField.invalid && passwordField.touched" class="error font-barlow-regular">
-        Wachtwoord is verplicht.
+        * Wachtwoord is verplicht.
       </div>
     </div>
-
+    <a class="font-barlow-regular" routerLink="/register" routerLinkActive="active">Nog geen account? Maak er één aan!</a>
     <button type="submit" class="btn font-barlow-regular" [disabled]="loginForm.invalid">Login</button>
   </form>
 </div>
