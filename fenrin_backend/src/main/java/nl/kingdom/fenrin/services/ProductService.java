@@ -27,6 +27,9 @@ public class ProductService {
     @Value("${file.upload-dir}")
     private String uploadDir;
 
+    @Value("$VPS_HOST")
+    private String vpsHost;
+
     public List<Product> getProducts() {
         return this.productRepository.findAll();
     }
@@ -95,7 +98,8 @@ public class ProductService {
 
         image.transferTo(imageFile);
 
-        return "http://localhost:8080/images/" + randomId + "_" + sanitizedImageName;
+
+        return "https://" + vpsHost + "/images/" + randomId + "_" + sanitizedImageName;
     }
 
     public Product formatNewProduct(NewProductDTO product, String imagePath) {
