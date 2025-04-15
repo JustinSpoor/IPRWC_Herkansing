@@ -22,16 +22,16 @@ jobs:
       # Build and push frontend Docker image
       - name: Build and Push Frontend Docker Image
         run: |
-          docker build --no-cache -t ${{secrets.DOCKER_USERNAME}}/angular-frontend:latest ./fenrin_frontend
+          docker build --no-cache -t ${{secrets.DOCKER_USERNAME}}/angular-frontend-iprwc:latest ./fenrin_frontend
           docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
-          docker push ${{ secrets.DOCKER_USERNAME }}/angular-frontend:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/angular-frontend-iprwc:latest
 
       # Build and push backend Docker image
       - name: Build and Push Backend Docker Image
         run: |
-          docker build --no-cache -t ${{secrets.DOCKER_USERNAME}}/spring-boot-backend:latest ./fenrin_backend
+          docker build --no-cache -t ${{secrets.DOCKER_USERNAME}}/spring-boot-backend-iprwc:latest ./fenrin_backend
           docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
-          docker push ${{secrets.DOCKER_USERNAME}}/spring-boot-backend:latest
+          docker push ${{secrets.DOCKER_USERNAME}}/spring-boot-backend-iprwc:latest
 
       - name: Setup SSH key
         run: | 
@@ -44,8 +44,8 @@ jobs:
           ssh -i key.pem -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "sudo mkdir -p /home/fenrin/fenrin-app"
           ssh -i key.pem -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "cd /home/fenrin/fenrin-app"
           ssh -i key.pem -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}"
-          ssh -i key.pem -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "sudo docker image rm -f ${{ secrets.DOCKER_USERNAME}}/angular-frontend:latest || true"
-          ssh -i key.pem -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "sudo docker image rm -f ${{ secrets.DOCKER_USERNAME}}/spring-boot-backend:latest || true"
+          ssh -i key.pem -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "sudo docker image rm -f ${{ secrets.DOCKER_USERNAME}}/angular-frontend-iprwc:latest || true"
+          ssh -i key.pem -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "sudo docker image rm -f ${{ secrets.DOCKER_USERNAME}}/spring-boot-backend-iprwc:latest || true"
           ssh -i key.pem -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "sudo docker system prune -af"
           ssh -i key.pem -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "cd /home/fenrin/fenrin-app"
           ssh -i key.pem -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "docker compose -f /home/fenrin/fenrin-app/docker-compose.yml down --remove-orphans"
@@ -60,5 +60,5 @@ jobs:
       # copy build files to nginx on vps
       - name: SSH to VPS and Copy files
         run: |
-          ssh -i key.pem -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "sudo docker cp angular-frontend:/usr/share/nginx/. /usr/share/nginx/"
+          ssh -i key.pem -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "sudo docker cp angular-frontend-iprwc:/usr/share/nginx/. /usr/share/nginx/"
           ssh -i key.pem -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "sudo systemctl restart nginx"
