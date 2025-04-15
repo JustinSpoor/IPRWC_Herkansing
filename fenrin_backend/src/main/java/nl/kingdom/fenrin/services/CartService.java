@@ -30,6 +30,10 @@ public class CartService {
 
 
     public List<CartItemDTO> getCartList(String username) {
+        if (username == null || username.isBlank() || !isValidUsername(username)) {
+            return null;
+        }
+
         Optional<MyUser> user = myUserRepository.findByUsername(username);
 
         if(user.isPresent()) {
@@ -83,6 +87,9 @@ public class CartService {
     }
 
     public ResponseEntity<?> addItemToCart(String username, UUID productId) {
+        if (username == null || username.isBlank() || !isValidUsername(username)) {
+            return ResponseEntity.status(400).body("Invalid username");
+        }
 
         Optional<Product> checkIfProductExists = this.productService.getProductById(productId);
 
@@ -127,6 +134,14 @@ public class CartService {
     }
 
     public ResponseEntity<?> updateCartItemQuantity(String username, UUID productId, int newQuantity) {
+        if (username == null || username.isBlank() || !isValidUsername(username)) {
+            return ResponseEntity.status(400).body("Invalid username");
+        }
+
+        if (newQuantity < 0 || newQuantity > 999) {
+            return ResponseEntity.status(400).body("Invalid quantity");
+        }
+
         Optional<MyUser> userOptional = this.myUserRepository.findByUsername(username);
 
         if(userOptional.isEmpty()) {
@@ -152,11 +167,17 @@ public class CartService {
             } else {
                 cart.getCartItems().remove(existingItem);
             }
+        } else {
+            return ResponseEntity.status(404).body("Item doesnt exist in cart");
         }
         return ResponseEntity.ok(cartRepository.save(cart));
     }
 
     public ResponseEntity<?> removeCartItem(String username, UUID productId) {
+        if (username == null || username.isBlank() || !isValidUsername(username)) {
+            return ResponseEntity.status(400).body("Invalid username");
+        }
+
         Optional<MyUser> userOptional = this.myUserRepository.findByUsername(username);
 
         if(userOptional.isEmpty()) {
@@ -183,6 +204,10 @@ public class CartService {
     }
 
     public ResponseEntity<?> removeCart(String username) {
+        if (username == null || username.isBlank() || !isValidUsername(username)) {
+            return ResponseEntity.status(400).body("Invalid username");
+        }
+
         Optional<MyUser> userOptional = this.myUserRepository.findByUsername(username);
 
         if(userOptional.isEmpty()) {
@@ -198,4 +223,9 @@ public class CartService {
 
         return ResponseEntity.ok("Cart deleted successfully.");
     }
+
+    private boolean isValidUsername(String username) {
+        return username != null && username.matches("^[a-zA-Z0-9._-]{3,50}$");
+    }
+
 }
