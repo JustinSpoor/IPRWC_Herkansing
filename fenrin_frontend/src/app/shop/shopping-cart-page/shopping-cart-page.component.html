@@ -1,3 +1,8 @@
+<button class="back-btn" routerLink="/shop">
+  <i class="fas fa-arrow-left"></i>
+</button>
+
+
 <div class="container font-barlow-regular">
   <h2 class="">Winkelmandje</h2>
 
@@ -12,12 +17,11 @@
       (quantityUpdated)="updateCartItemQuantity($event)"
       (itemRemoved)="removeCartItem($event)">
     </app-shopping-cart-item>
-
   </div>
 
   <div class="total-price">
     <span>Totaalprijs: €{{ getCartTotal() | number: '1.2-2' }}</span>
   </div>
 
-  <button class="btn">Bestellen</button>
+  <button class="btn" (click)="onCheckout()" [disabled]="(cart$ | async)?.length === 0" >Bestellen</button>
 </div>

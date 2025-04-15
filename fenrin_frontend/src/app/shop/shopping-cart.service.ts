@@ -1,4 +1,5 @@
 import {Injectable} from "@angular/core";
+import { Router } from "@angular/router";
 import { BehaviorSubject, Observable } from "rxjs";
 import { AuthService } from "../auth/auth.service";
 import {HttpService} from "../shared/http.service";
@@ -17,7 +18,10 @@ export class ShoppingCartService {
 
   private items: any = [];
 
-  constructor(private authService: AuthService, private toasterService: ToastService, private httpService: HttpService) {
+  constructor(private authService: AuthService,
+              private toasterService: ToastService,
+              private httpService: HttpService,
+              private router: Router) {
     if(this.authService.isLoggedIn()) {
       this.loadCartFromBackend();
     } else {
@@ -116,4 +120,20 @@ export class ShoppingCartService {
       this.updateCartItems(filteredItems);
     }
   }
+
+  removeCart() {
+    if(this.authService.isLoggedIn()) {
+      this.httpService.httpDelete(`${this.cartRoute}`, this.authService.getUsername()).subscribe({
+        next: () => {
+          this.router.navigate(['/shop']);
+          this.loadCartFromBackend();
+          this.toasterService.showSuccess('Bestelling geplaatst', 'Besteld');
+        },
+        error: () => {
+          this.toasterService.showError('Er is iets mis gegaan met je bestelling.', 'Error');
+        }
+      })
+    }
+  }
+
 }

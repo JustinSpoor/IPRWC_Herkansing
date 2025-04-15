@@ -39,4 +39,10 @@ public class CartController {
     public ResponseEntity<?> removeCartItem(@PathVariable String username, @PathVariable UUID productId) {
         return cartService.removeCartItem(username, productId);
     }
+
+    @DeleteMapping("/cart/{username}")
+    public ResponseEntity<?> removeCart(@PathVariable String username) {
+        this.cartService.removeCart(username);
+        return ResponseEntity.ok().body(null);
+    }
 }

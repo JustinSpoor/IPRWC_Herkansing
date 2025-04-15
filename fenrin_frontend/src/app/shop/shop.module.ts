@@ -8,6 +8,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NewProductFormComponent } from './shop-page/new-product-form/new-product-form.component';
 import { ShoppingCartPageComponent } from './shopping-cart-page/shopping-cart-page.component';
 import { ShoppingCartItemComponent } from './shopping-cart-page/shopping-cart-item/shopping-cart-item.component';
+import { CheckoutPageComponent } from './checkout-page/checkout-page.component';
+import { CheckoutFormComponent } from './checkout-page/checkout-form/checkout-form.component';
 
 
 @NgModule({
@@ -16,7 +18,9 @@ import { ShoppingCartItemComponent } from './shopping-cart-page/shopping-cart-it
     ProductComponent,
     NewProductFormComponent,
     ShoppingCartPageComponent,
-    ShoppingCartItemComponent
+    ShoppingCartItemComponent,
+    CheckoutPageComponent,
+    CheckoutFormComponent
   ],
   imports: [
     CommonModule,

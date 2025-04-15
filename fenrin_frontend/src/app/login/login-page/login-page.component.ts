@@ -21,6 +21,7 @@ export class LoginPageComponent {
       password: this.password
     }).subscribe({
       next: () => {
+        //TODO syncen van guest localstorrage cart en logged in cart.
         this.toasterService.showSuccess(`Ingelogd als ${this.username}`, 'Login geslaagd')
       },
       error: () => {

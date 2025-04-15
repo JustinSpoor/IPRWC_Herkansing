@@ -181,4 +181,21 @@ public class CartService {
 
         return ResponseEntity.status(404).body("Product does not exist");
     }
+
+    public ResponseEntity<?> removeCart(String username) {
+        Optional<MyUser> userOptional = this.myUserRepository.findByUsername(username);
+
+        if(userOptional.isEmpty()) {
+            return ResponseEntity.status(404).body("User does not exist");
+        }
+
+        Optional<Cart> cartOptional = cartRepository.findByUserId(userOptional.get().getId());
+
+        if (cartOptional.isEmpty()) {
+            return ResponseEntity.status(404).body("Cart does not exist");
+        }
+        cartRepository.delete(cartOptional.get());
+
+        return ResponseEntity.ok("Cart deleted successfully.");
+    }
 }
