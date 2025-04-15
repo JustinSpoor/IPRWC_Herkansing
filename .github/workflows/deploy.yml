@@ -1,0 +1,64 @@
+name: Deploy to DigitalOcean
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'fenrin_frontend/**'
+      - 'fenrin_backend/**'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      # Build and push frontend Docker image
+      - name: Build and Push Frontend Docker Image
+        run: |
+          docker build --no-cache -t ${{secrets.DOCKER_USERNAME}}/angular-frontend:latest ./fenrin_frontend
+          docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
+          docker push ${{ secrets.DOCKER_USERNAME }}/angular-frontend:latest
+
+      # Build and push backend Docker image
+      - name: Build and Push Backend Docker Image
+        run: |
+          docker build --no-cache -t ${{secrets.DOCKER_USERNAME}}/spring-boot-backend:latest ./fenrin_backend
+          docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
+          docker push ${{secrets.DOCKER_USERNAME}}/spring-boot-backend:latest
+
+      - name: Setup SSH key
+        run: | 
+          echo "${{ secrets.VPS_SSH_KEY }}" > key.pem
+          chmod 600 key.pem
+
+      # Deploy to VPS using SSH
+      - name: SSH to VPS and Deploy
+        run: |
+          ssh -i key.pem -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "sudo mkdir -p /home/fenrin/fenrin-app"
+          ssh -i key.pem -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "cd /home/fenrin/fenrin-app"
+          ssh -i key.pem -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}"
+          ssh -i key.pem -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "sudo docker image rm -f ${{ secrets.DOCKER_USERNAME}}/angular-frontend:latest || true"
+          ssh -i key.pem -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "sudo docker image rm -f ${{ secrets.DOCKER_USERNAME}}/spring-boot-backend:latest || true"
+          ssh -i key.pem -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "sudo docker system prune -af"
+          ssh -i key.pem -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "cd /home/fenrin/fenrin-app"
+          ssh -i key.pem -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "docker compose -f /home/fenrin/fenrin-app/docker-compose.yml down --remove-orphans"
+          ssh -i key.pem -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "docker volume rm fenrin-app_frontend-data || true"
+          ssh -i key.pem -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "docker compose -f /home/fenrin/fenrin-app/docker-compose.yml pull"
+          ssh -i key.pem -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "docker compose -f /home/fenrin/fenrin-app/docker-compose.yml up -d --force-recreate --build"
+
+      - name: Clear nginx file location.
+        run: |
+          ssh -i key.pem -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "rm -rf /usr/share/nginx/html"
+
+      # copy build files to nginx on vps
+      - name: SSH to VPS and Copy files
+        run: |
+          ssh -i key.pem -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "sudo docker cp angular-frontend:/usr/share/nginx/. /usr/share/nginx/"
+          ssh -i key.pem -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "sudo systemctl restart nginx"

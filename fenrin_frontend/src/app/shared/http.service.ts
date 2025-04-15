@@ -6,7 +6,7 @@ import {catchError, Observable, throwError} from "rxjs";
   providedIn: 'root'
 })
 export class HttpService {
-  API_PATH: string = 'http://localhost:8080/api';
+  API_PATH: string = 'https://spoorjustin.nl/api';
 
   constructor(private http: HttpClient) {
   }
