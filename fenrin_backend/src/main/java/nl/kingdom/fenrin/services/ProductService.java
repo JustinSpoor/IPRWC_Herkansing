@@ -5,6 +5,8 @@ import jdk.swing.interop.SwingInterOpUtils;
 import nl.kingdom.fenrin.dto.NewProductDTO;
 import nl.kingdom.fenrin.models.Product;
 import nl.kingdom.fenrin.repositories.ProductRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -30,6 +32,8 @@ public class ProductService {
     @Value("${VPS_HOST}")
     private String vpsHost;
 
+    private static final Logger logger = LoggerFactory.getLogger(ProductService.class);
+
     public List<Product> getProducts() {
         return this.productRepository.findAll();
     }
@@ -43,18 +47,21 @@ public class ProductService {
     }
 
     public Product saveProduct(Product product) {
+        logger.info("Saving new product: '{}'", product.getName());
         return this.productRepository.save(product);
     }
 
     public Product updateProduct(Product product) {
+        logger.info("Updating product with ID: {}", product.getId());
         return this.productRepository.save(product);
     }
 
     public void deleteProduct(Product product) {
-
+        logger.info("Deleting product with ID: {}", product.getId());
         deleteImageFromFileSystem(product.getImageUrl());
 
         this.productRepository.delete(product);
+        logger.info("Product deleted successfully: {}", product.getId());
     }
 
     public void deleteImageFromFileSystem(String imageUrl) {
@@ -67,16 +74,15 @@ public class ProductService {
 
             if(file.exists()) {
                 if(file.delete()) {
-                    //TODO change print statements for a logger
-                    System.out.println("Deleted image: " + fullPath);
+                    logger.info("Deleted image from filesystem: {}", fullPath);
                 } else {
-                    System.err.println("Failed to delete image: " + fullPath);
+                    logger.warn("Failed to delete image from filesystem: {}", fullPath);
                 }
             } else {
-                System.err.println("Image file not found: " + fullPath);
+                logger.warn("Image file not found: {}", fullPath);
             }
         } catch (Exception e) {
-            System.err.println("Error while deleting image: " + e.getMessage());
+            logger.error("Error while deleting image: {}", e.getMessage(), e);
         }
     }
 
@@ -84,6 +90,7 @@ public class ProductService {
         File uploadDirectory = new File(uploadDir);
         if(!uploadDirectory.exists()) {
             uploadDirectory.mkdirs();
+            logger.info("Created upload directory at: {}", uploadDir);
         }
 
         String imageName = image.getOriginalFilename();
@@ -97,6 +104,7 @@ public class ProductService {
         File imageFile = imagePath.toFile();
 
         image.transferTo(imageFile);
+        logger.info("Image saved successfully at: {}", imagePath);
 
 
         return "https://" + vpsHost + "/images/" + randomId + "_" + sanitizedImageName;

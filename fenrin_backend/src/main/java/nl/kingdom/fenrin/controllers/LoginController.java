@@ -3,6 +3,8 @@ package nl.kingdom.fenrin.controllers;
 import nl.kingdom.fenrin.models.LoginForm;
 import nl.kingdom.fenrin.services.JwtService;
 import nl.kingdom.fenrin.services.MyUserDetailService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,6 +29,8 @@ public class LoginController {
     @Autowired
     private MyUserDetailService myUserDetailService;
 
+    private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
+
     @PostMapping("/authenticate")
     public ResponseEntity<?> authenticateAndGenerateToken(@RequestBody LoginForm loginForm) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
@@ -34,6 +38,7 @@ public class LoginController {
                 loginForm.getPassword()
         ));
         if (authentication.isAuthenticated()) {
+            logger.info("User '{}' authenticated successfully", loginForm.getUsername());
             String accessToken = jwtService.generateToken(myUserDetailService.loadUserByUsername(loginForm.getUsername()));
             String refreshToken = jwtService.generateRefreshToken(myUserDetailService.loadUserByUsername(loginForm.getUsername()));
 
@@ -43,6 +48,7 @@ public class LoginController {
 
             return ResponseEntity.ok(tokens);
         } else {
+            logger.warn("Authentication failed for user '{}'. Invalid credentials", loginForm.getUsername());
             return ResponseEntity.status(401).body("Invallid Credentials");
         }
     }

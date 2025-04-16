@@ -3,6 +3,8 @@ package nl.kingdom.fenrin.services;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,8 +28,11 @@ public class JwtService {
     @Autowired
     private MyUserDetailService myUserDetailService;
 
+    private static final Logger logger = LoggerFactory.getLogger(JwtService.class);
+
 
     public String generateToken(UserDetails userDetails) {
+        logger.debug("Generating access token for user: {}", userDetails.getUsername());
         return Jwts.builder()
                 .subject(userDetails.getUsername())
                 .claim("roles", userDetails.getAuthorities())
@@ -38,6 +43,7 @@ public class JwtService {
     }
 
     public String generateRefreshToken(UserDetails userDetails) {
+        logger.debug("Generating refresh token for user: {}", userDetails.getUsername());
         return Jwts.builder()
                 .subject(userDetails.getUsername())
                 .claim("roles", userDetails.getAuthorities())
