@@ -12,6 +12,7 @@
     <div>
       <button class="font-barlow-regular shoppingCartButton" routerLink="cart">
         <i class="fas fa-shopping-cart"></i>
+        <span *ngIf="(totalQuantity$ | async) as total" [hidden]="total === 0" class="cart-indicator">{{ total }}</span>
       </button>
 
       <button *ngIf="isLoggedIn == false" class="loginButton font-barlow-regular" routerLink="login">

@@ -70,11 +70,28 @@
   cursor: pointer;
   transition: background-color 0.3s;
   border: none;
+  position:  relative;
+
+  .cart-indicator {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: var(--fenrin-red-color);
+    color: var(--fenrin-blue-color);
+    font-size: 12px;
+    padding: 3px 5px;
+    border-radius: 50%;
+    line-height: 1;
+    font-weight: bold;
+  }
+
 }
 
 .shoppingCartButton:hover {
   background-color: rgba(238,238,238, 0.5);
 }
+
+
 
 
 

@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import { Router } from "@angular/router";
-import { BehaviorSubject, Observable } from "rxjs";
+import { BehaviorSubject, map, Observable } from "rxjs";
 import { AuthService } from "../auth/auth.service";
 import {HttpService} from "../shared/http.service";
 import { ToastService } from "../shared/toast.service";
@@ -14,6 +14,10 @@ export class ShoppingCartService {
   cartRoute: string = 'cart';
   private cartItemsSubject = new BehaviorSubject<any[]>([]);
   cartItems$: Observable<any[]> = this.cartItemsSubject.asObservable();
+
+  totalQuantity$ = this.cartItems$.pipe(
+    map((items:any) => items.reduce((total: number, item: any) => total + item.quantity, 0))
+  );
 
 
   private items: any = [];
@@ -65,6 +69,14 @@ export class ShoppingCartService {
     return this.items.reduce((total: any, item: any) => {
       return total + item.price * item.quantity;
     }, 0)
+  }
+
+  refreshCart() {
+    if (this.authService.isLoggedIn()) {
+      this.loadCartFromBackend();
+    } else {
+      this.loadCartFromStorage();
+    }
   }
 
   addToCart(product: any) {

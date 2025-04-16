@@ -40,6 +40,7 @@ export class ProductComponent {
       imageUrl: this.product.imageUrl
     }
 
+    this.toasterService.showInfo(`${item.name} toegevoegd aan winkelwagentje`, 'Toegevoegd')
     this.shoppingCartService.addToCart(item)
   }
 

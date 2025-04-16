@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import {BehaviorSubject, Observable, tap} from "rxjs";
 import {Router} from "@angular/router";
 import {jwtDecode} from "jwt-decode";
 import {HttpService} from "../shared/http.service";
 import {ToastService} from "../shared/toast.service";
+import { ShoppingCartService } from '../shop/shopping-cart.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,10 @@ export class AuthService {
   private loggedUser?: String;
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
 
-  constructor(private httpService: HttpService, private router: Router, private toasterService: ToastService) { }
+  constructor(private httpService: HttpService,
+              private router: Router,
+              private toasterService: ToastService,
+              private injector: Injector) { }
 
   login(user: {
     username: string,
@@ -48,6 +52,7 @@ export class AuthService {
     this.storeJwtToken(token);
     this.storeJwtRefreshToken(refreshToken);
     this.isAuthenticatedSubject.next(true);
+    this.injector.get(ShoppingCartService).refreshCart();
     this.router.navigate(['/home'])
   }
 
@@ -136,6 +141,7 @@ export class AuthService {
     localStorage.removeItem(this.JWT_TOKEN);
     localStorage.removeItem(this.JWT_REFRESH_TOKEN);
     this.isAuthenticatedSubject.next(false);
+    this.injector.get(ShoppingCartService).refreshCart();
     this.router.navigate(['/home'])
     this.toasterService.showInfo('', 'Uitgelogd')
   }
